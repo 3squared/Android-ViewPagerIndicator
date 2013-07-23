@@ -386,6 +386,20 @@ public class TitlePageIndicator extends View implements PageIndicator {
         final int right = left + width;
         final float rightClip = right - mClipPadding;
 
+//        int page = mCurrentPage;
+//        float offsetPercent;
+//        if (mPageOffset <= 0.5) {
+//            offsetPercent = mPageOffset;
+//        } else {
+//            page += 1;
+//            offsetPercent = 1 - mPageOffset;
+//        }
+//        final boolean currentSelected = (offsetPercent <= SELECTION_FADE_PERCENTAGE);
+//        final boolean currentBold = (offsetPercent <= BOLD_FADE_PERCENTAGE);
+//        final float selectedPercent = (SELECTION_FADE_PERCENTAGE - offsetPercent) / SELECTION_FADE_PERCENTAGE;
+
+		// Here comes the workrround!!!
+
         int page = mCurrentPage;
         float offsetPercent;
         if (mPageOffset <= 0.5) {
@@ -396,8 +410,16 @@ public class TitlePageIndicator extends View implements PageIndicator {
         }
         final boolean currentSelected = (offsetPercent <= SELECTION_FADE_PERCENTAGE);
         final boolean currentBold = (offsetPercent <= BOLD_FADE_PERCENTAGE);
-        final float selectedPercent = (SELECTION_FADE_PERCENTAGE - offsetPercent) / SELECTION_FADE_PERCENTAGE;
 
+        float selectedPercentTemp = (SELECTION_FADE_PERCENTAGE - offsetPercent) / SELECTION_FADE_PERCENTAGE;
+
+        if (selectedPercentTemp > 1.0f) {
+            selectedPercentTemp = 1.0f;
+        }
+
+        final float selectedPercent = selectedPercentTemp;
+
+		// This is the end of the workaround!!!
         //Verify if the current view must be clipped to the screen
         Rect curPageBound = bounds.get(mCurrentPage);
         float curPageWidth = curPageBound.right - curPageBound.left;
